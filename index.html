@@ -275,7 +275,7 @@
             <script>
                 var istTime = new Date().getHours();
                 console.log(istTime);
-                if (istTime >= 13) {
+                if (istTime > 13) {
                     document.write(`
                     <div class="floating-button" id="isInBus">
                         <div class="button-content">
@@ -489,10 +489,10 @@
         }).setView([0, 0], 19);
 
         var path = '';
-        if (istTime >= 13) {
+        if (istTime > 13) {
             path = 'mlrit_route1_morning.json';
         } else {
-            path = 'coordinates2.json';
+            path = 'mlrit_route1_evening.json';
         }
 
         fetch(path)
