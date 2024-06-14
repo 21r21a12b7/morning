@@ -275,7 +275,7 @@
             <script>
                 var istTime = new Date().getHours();
                 console.log(istTime);
-                if (istTime <= 13) {
+                if (istTime >= 13) {
                     document.write(`
                     <div class="floating-button" id="isInBus">
                         <div class="button-content">
@@ -302,7 +302,7 @@
         console.log(istTime)
         let previousBusLocation = [0, 0];
         let presentBusLocation = [0, 0];
-        const studentStopLocation = [17.5764616, 78.4243604];
+        const studentStopLocation = [17.559267,78.490467];
         let toLocation = studentStopLocation;
         let busMarker;
         let shouldFollowMarker = false;
@@ -489,8 +489,8 @@
         }).setView([0, 0], 19);
 
         var path = '';
-        if (istTime <= 13) {
-            path = 'coordinates.json';
+        if (istTime >= 13) {
+            path = 'mlrit_route1_morning.json';
         } else {
             path = 'coordinates2.json';
         }
