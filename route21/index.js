@@ -130,9 +130,9 @@ function calculateDistanceTimeSpeed(locationOne, locationTwo, speed) {
 }
 
 async function fetchBusLocation() {
-  if(isUserBusSet){
-    setUserBus();
-  }
+  // if(isUserBusSet){
+  //   setUserBus();
+  // }
   const auth = await hypegpstracker(whereismybus);
   const url = `https://portal.hypegpstracker.com/api/get_devices?user_api_hash=${auth}`;
 
