@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -58,7 +59,6 @@
             border-top: 1px solid black;
         }
 
-
         .info-panel {
             display: flex;
             justify-content: space-between;
@@ -96,19 +96,14 @@
 
         #layerButton {
             position: absolute;
-            /* top: 10px; */
             right: 6px;
             z-index: 1000;
             background-color: transparent;
-            /* color: white; */
             padding: 0 0;
             border-radius: 5px;
-            /* cursor: pointer; */
             transition: background-color 0.3s;
-            /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); */
             width: 50px;
             height: 50px;
-
         }
 
         #layerButton img {
@@ -119,9 +114,6 @@
 
         #layerButton.active {
             padding: 0px;
-            /* background-color: white; */
-            /* border: 1px solid black; */
-
         }
 
         .follow-marker-button {
@@ -132,16 +124,13 @@
             border: 1px solid black;
             border-radius: 50%;
             padding: 10px;
-            /* cursor: pointer; */
             z-index: 1000;
         }
 
         .floating-button {
             position: absolute;
             right: 0;
-            /* top: 70px; */
             transform: translateY(calc(50px + 5px));
-            /* Adjusted to be 15px below #layerButton */
             background-color: #3D408A;
             color: white;
             padding: 6px 18px;
@@ -186,7 +175,6 @@
 
         .slider {
             position: absolute;
-            /* cursor: pointer; */
             top: 0;
             left: 0;
             right: 0;
@@ -201,8 +189,6 @@
             content: "";
             height: 20px;
             width: 20px;
-            /* left: 3px; */
-            bottom: 2px;
             background-color: white;
             transition: 0.4s;
             border-radius: 50%;
@@ -228,6 +214,20 @@
             margin-right: 5px;
             font-size: 14px;
             font-weight: bold;
+        }
+
+        .set-user-bus-button {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            border-radius: 50%;
+            z-index: 1000;
+            background-color: white;
+        }
+
+        .set-user-bus-button img {
+            width: 50px;
+            height: 50px;
         }
     </style>
 </head>
@@ -266,7 +266,6 @@
             </div>
             <script>
                 var istTime = new Date().getHours();
-                // console.log(istTime);
                 if (istTime >= 2 && istTime <= 13) {
                     document.write(`
                     <div class="floating-button" id="isInBus">
@@ -287,23 +286,63 @@
         </div>
     </div>
     <img class="follow-marker-button" src="../img/follow.svg" alt="Follow Marker" onclick="toggleFollowMarker()">
+    <div class="set-user-bus-button" onclick="setUserBus()">
+        <img src="../img/follow_user.png" alt="Set User Bus">
+    </div>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
     <script>
         function redirectToIndex() {
-            window.parent.postMessage('reDirectToHomePage', '*'); // Send message to parent window (index.html)
+            window.parent.postMessage('reDirectToHomePage', '*');
         }
 
         function redirectToChange() {
-            window.parent.postMessage('reDirectToChangeBusPage', '*'); // Example: You can implement similar functions for other buttons
+            window.parent.postMessage('reDirectToChangeBusPage', '*');
         }
 
         function redirectToSettings() {
             window.parent.postMessage('reDirectToSettingsPage', '*');
         }
+
+        function setUserBus() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const latitude = position.coords.latitude;
+                        const longitude = position.coords.longitude;
+                        const bounds = L.latLngBounds([
+                            [latitude,longitude],
+                            presentBusLocation
+                        ]);
+
+                        // Fit the map to the bounds with padding
+                        map.flyToBounds(bounds, { padding: [30, 30, 30, 30] });
+
+                    },
+                    (error) => {
+                        switch (error.code) {
+                            case error.PERMISSION_DENIED:
+                                alert("You denied the request for Geolocation. Please enable location services in your browser settings.");
+                                break;
+                            case error.POSITION_UNAVAILABLE:
+                                alert("Location information is unavailable.");
+                                break;
+                            case error.TIMEOUT:
+                                alert("The request to get your location timed out.");
+                                break;
+                            case error.UNKNOWN_ERROR:
+                                alert("An unknown error occurred.");
+                                break;
+                        }
+                    }
+                );
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
     </script>
 
-    <script src="index.js" defer ></script>
+    <script src="index.js" defer></script>
 </body>
 
 </html>

@@ -449,31 +449,6 @@ if (document.getElementById("isInBus")) {
   });
 }
 
-function focusOnBusAndUser() {
-  // Function to get user's current location and focus the map
-  if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function(position) {
-          var userLatLng = [position.coords.latitude, position.coords.longitude];
-
-          // Assuming busMarker is your Leaflet marker for the bus
-          var busLatLng = busMarker.getLatLng();
-
-          // Create a LatLngBounds object to include both the user and bus locations
-          var bounds = L.latLngBounds([userLatLng, busLatLng]);
-
-          // Fit the map to the bounds
-          map.fitBounds(bounds);
-      }, function(error) {
-          console.error('Error getting user location: ', error);
-          // Handle error (e.g., show an error message to the user)
-      });
-  } else {
-      console.error('Geolocation is not supported by this browser.');
-      // Handle error (e.g., show a message to the user)
-  }
-}
-
-
 
 fetchBusLocation();
 setInterval(fetchBusLocation, 10000);
