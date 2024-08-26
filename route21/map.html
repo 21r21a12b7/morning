@@ -133,7 +133,7 @@
             transform: translateY(calc(50px + 5px));
             background-color: #3D408A;
             color: white;
-            padding: 4px 12px;
+            padding: 3px 12px;
             border-radius: 8px 0 0 8px;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -142,16 +142,18 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             z-index: 1000;
         }
-        
+
         .follow-marker-button {
             position: fixed;
-            bottom: 10px;
-            right: 15px;
+            bottom: 15px;
+            right: 10px;
             background: yellow;
             border: 1px solid black;
             border-radius: 50%;
             padding: 10px;
             z-index: 1000;
+            width: 30px;
+            height: 30px;
         }
 
         .button-content {
@@ -266,6 +268,7 @@
             </div>
             <script>
                 var istTime = new Date().getHours();
+                // if (istTime >= 2 && istTime <= 13) {
                 document.write(`
                     <div class="floating-button" id="isInBus">
                         <div class="button-content">
@@ -280,6 +283,7 @@
                         </div>
                     </div>
                     `);
+                // }
 
             </script>
         </div>
@@ -288,19 +292,29 @@
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
     <script>
-        let isUserBusSet = false;  // Variable to keep track of toggle state 
+        let isUserBusSet = false;  // Variable to keep track of toggle state
+        let userLocationMarker;    // Variable to store the user location marker
+    
+        // Custom icon for the user's location marker
+        const userLocationIcon = L.icon({
+            iconUrl: '../img/deviceLocation.svg',
+            iconSize: [30, 30], // size of the icon
+            iconAnchor: [15, 15], // point of the icon which will correspond to marker's location
+            popupAnchor: [0, -15] // point from which the popup should open relative to the iconAnchor
+        });
+    
         function redirectToIndex() {
             window.parent.postMessage('reDirectToHomePage', '*');
         }
-
+    
         function redirectToChange() {
             window.parent.postMessage('reDirectToChangeBusPage', '*');
         }
-
+    
         function redirectToSettings() {
             window.parent.postMessage('reDirectToSettingsPage', '*');
         }
-
+    
         function setUserBus() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
@@ -311,17 +325,26 @@
                             [latitude, longitude],
                             presentBusLocation
                         ]);
-
+    
                         if (!isUserBusSet) {
                             // Set user bus
                             polyline.setStyle({ weight: 0 });
                             map.once("zoomend", function () {
                                 polyline.setStyle({ weight: 3 });
                             });
-                            map.flyToBounds(bounds, { padding: [30, 30, 30, 30] });
+                            map.flyToBounds(bounds, { padding: [40, 40, 40, 40] });
                             document.querySelector('.set-user-bus-button img').src = "../img/follow_user_not.png";
                             document.querySelector(".follow-marker-button").style.backgroundColor = "yellow";
                             shouldFollowMarker = false;
+    
+                            // Add or update user location marker with custom icon
+                            if (userLocationMarker) {
+                                userLocationMarker.setLatLng([latitude, longitude]).update();
+                            } else {
+                                userLocationMarker = L.marker([latitude, longitude], { icon: userLocationIcon }).addTo(map);
+                            }
+                            userLocationMarker.bindPopup("It's You").openPopup();
+    
                         } else {
                             // Reset to previous bounds or state
                             polyline.setStyle({ weight: 0 });
@@ -331,8 +354,14 @@
                             map.flyToBounds(polyline.getBounds(), { padding: [30, 30, 30, 30] });
                             document.querySelector('.set-user-bus-button img').src = "../img/follow_user.png";
                             shouldFollowMarker = false;
+    
+                            // Hide user location marker
+                            if (userLocationMarker) {
+                                userLocationMarker.remove();  // This hides the marker
+                                userLocationMarker = null;
+                            }
                         }
-
+    
                         // Toggle the state
                         isUserBusSet = !isUserBusSet;
                     },
@@ -358,5 +387,7 @@
             }
         }
     </script>
+    
+
 
     <script src="index.js" defer></script>

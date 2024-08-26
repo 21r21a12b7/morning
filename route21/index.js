@@ -166,7 +166,15 @@ async function fetchBusLocation() {
             map.once("zoomend", function () {
               polyline.setStyle({ weight: 3 });
             });
-            map.flyToBounds(bounds, { padding: [30, 30, 30, 30] });
+            map.flyToBounds(bounds, { padding: [40, 40, 40, 40] });
+            // Add or update user location marker with custom icon
+            if (userLocationMarker) {
+              userLocationMarker.setLatLng([latitude, longitude]).update();
+            } else {
+              userLocationMarker = L.marker([latitude, longitude], { icon: userLocationIcon }).addTo(map);
+            }
+            userLocationMarker.bindPopup("It's You").openPopup();
+
 
           },
           (error) => {
@@ -466,7 +474,7 @@ map.on("dragstart", function () {
   document.querySelector(".follow-marker-button").style.backgroundColor =
     "yellow";
   isUserBusSet = false;  // Variable to keep track of toggle state 
-  document.querySelector('.set-user-bus-button img').src = "../img/follow_user.png"; 
+  document.querySelector('.set-user-bus-button img').src = "../img/follow_user.png";
 
 });
 
