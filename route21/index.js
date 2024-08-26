@@ -130,9 +130,7 @@ function calculateDistanceTimeSpeed(locationOne, locationTwo, speed) {
 }
 
 async function fetchBusLocation() {
-  // if(isUserBusSet){
-  //   setUserBus();
-  // }
+
   const auth = await hypegpstracker(whereismybus);
   const url = `https://portal.hypegpstracker.com/api/get_devices?user_api_hash=${auth}`;
 
@@ -152,6 +150,47 @@ async function fetchBusLocation() {
     presentBusLocation = [filteredData.lat, filteredData.lng];
     // console.log(presentBusLocation);
     // console.log(shouldFollowMarker);
+
+    if (isUserBusSet) {
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            const bounds = L.latLngBounds([
+              [latitude, longitude],
+              presentBusLocation
+            ]);
+            polyline.setStyle({ weight: 0 });
+            map.once("zoomend", function () {
+              polyline.setStyle({ weight: 3 });
+            });
+            map.flyToBounds(bounds, { padding: [30, 30, 30, 30] });
+
+          },
+          (error) => {
+            switch (error.code) {
+              case error.PERMISSION_DENIED:
+                alert("You denied the request for Geolocation. Please enable location services in your browser settings.");
+                break;
+              case error.POSITION_UNAVAILABLE:
+                alert("Location information is unavailable.");
+                break;
+              case error.TIMEOUT:
+                alert("The request to get your location timed out.");
+                break;
+              case error.UNKNOWN_ERROR:
+                alert("An unknown error occurred.");
+                break;
+            }
+          }
+        );
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
+
+    }
 
     if (
       previousBusLocation[0] !== presentBusLocation[0] ||
