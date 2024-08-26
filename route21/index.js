@@ -221,7 +221,7 @@ async function fetchBusLocation() {
               ".follow-marker-button"
             ).style.backgroundColor = "white";
           });
-          let isUserBusSet = false;  // Variable to keep track of toggle state 
+          isUserBusSet = false;  // Variable to keep track of toggle state 
           document.querySelector('.set-user-bus-button img').src = "../img/follow_user.png";
         });
       } else {
@@ -310,7 +310,7 @@ function toggleFollowMarker() {
     document.querySelector(".follow-marker-button").style.backgroundColor =
       "white";
   });
-  let isUserBusSet = false;  // Variable to keep track of toggle state 
+  isUserBusSet = false;  // Variable to keep track of toggle state 
   document.querySelector('.set-user-bus-button img').src = "../img/follow_user.png";
 
 }
@@ -381,7 +381,7 @@ fetch(path)
       map.once("zoomend", function () {
         polyline.setStyle({ weight: 3 });
       });
-      let isUserBusSet = false;  // Variable to keep track of toggle state 
+      isUserBusSet = false;  // Variable to keep track of toggle state 
       document.querySelector('.set-user-bus-button img').src = "../img/follow_user.png";
 
     });
@@ -402,7 +402,7 @@ fetch(path)
       map.once("zoomend", function () {
         polyline.setStyle({ weight: 3 });
       });
-      let isUserBusSet = false;  // Variable to keep track of toggle state 
+      isUserBusSet = false;  // Variable to keep track of toggle state 
       document.querySelector('.set-user-bus-button img').src = "../img/follow_user.png";
 
     });
@@ -455,7 +455,7 @@ studentStopMarker.on("click", function () {
   map.once("zoomend", function () {
     polyline.setStyle({ weight: 3 });
   });
-  let isUserBusSet = false;  // Variable to keep track of toggle state 
+  isUserBusSet = false;  // Variable to keep track of toggle state 
   document.querySelector('.set-user-bus-button img').src = "../img/follow_user.png";
 
 });
