@@ -330,7 +330,6 @@
                             map.once("zoomend", function () {
                                 polyline.setStyle({ weight: 3 });
                             });
-                            map.flyToBounds(bounds, { padding: [30, 30, 30, 30] });
                             map.flyToBounds(polyline.getBounds(), { padding: [30, 30, 30, 30] });
                             document.querySelector('.set-user-bus-button img').src = "../img/follow_user.png";
                             shouldFollowMarker = false;
