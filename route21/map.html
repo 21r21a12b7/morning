@@ -219,10 +219,8 @@
         .set-user-bus-button {
             position: fixed;
             bottom: 10px;
-            left: 10px;
-            border-radius: 50%;
+            left: 15px;
             z-index: 1000;
-            background-color: white;
         }
 
         .set-user-bus-button img {
@@ -292,6 +290,7 @@
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
     <script>
+        let isUserBusSet = false;  // Variable to keep track of toggle state 
         function redirectToIndex() {
             window.parent.postMessage('reDirectToHomePage', '*');
         }
@@ -311,13 +310,34 @@
                         const latitude = position.coords.latitude;
                         const longitude = position.coords.longitude;
                         const bounds = L.latLngBounds([
-                            [latitude,longitude],
+                            [latitude, longitude],
                             presentBusLocation
                         ]);
 
-                        // Fit the map to the bounds with padding
-                        map.flyToBounds(bounds, { padding: [30, 30, 30, 30] });
+                        if (!isUserBusSet) {
+                            // Set user bus
+                            polyline.setStyle({ weight: 0 });
+                            map.once("zoomend", function () {
+                                polyline.setStyle({ weight: 3 });
+                            });
+                            map.flyToBounds(bounds, { padding: [30, 30, 30, 30] });
+                            document.querySelector('.set-user-bus-button img').src = "../img/follow_user_not.png";
+                            document.querySelector(".follow-marker-button").style.backgroundColor = "yellow";
+                            shouldFollowMarker = false;
+                        } else {
+                            // Reset to previous bounds or state
+                            polyline.setStyle({ weight: 0 });
+                            map.once("zoomend", function () {
+                                polyline.setStyle({ weight: 3 });
+                            });
+                            map.flyToBounds(bounds, { padding: [30, 30, 30, 30] });
+                            map.flyToBounds(polyline.getBounds(), { padding: [30, 30, 30, 30] });
+                            document.querySelector('.set-user-bus-button img').src = "../img/follow_user.png";
+                            shouldFollowMarker = false;
+                        }
 
+                        // Toggle the state
+                        isUserBusSet = !isUserBusSet;
                     },
                     (error) => {
                         switch (error.code) {
@@ -343,6 +363,3 @@
     </script>
 
     <script src="index.js" defer></script>
-</body>
-
-</html>

@@ -130,6 +130,9 @@ function calculateDistanceTimeSpeed(locationOne, locationTwo, speed) {
 }
 
 async function fetchBusLocation() {
+  if(isUserBusSet && !shouldFollowMarker ){
+    setUserBus();
+  }
   const auth = await hypegpstracker(whereismybus);
   const url = `https://portal.hypegpstracker.com/api/get_devices?user_api_hash=${auth}`;
 
@@ -179,6 +182,8 @@ async function fetchBusLocation() {
               ".follow-marker-button"
             ).style.backgroundColor = "white";
           });
+          let isUserBusSet = false;  // Variable to keep track of toggle state 
+          document.querySelector('.set-user-bus-button img').src = "../img/follow_user.png";
         });
       } else {
         animateMarker(busMarker, previousBusLocation, presentBusLocation, 2000);
@@ -266,6 +271,9 @@ function toggleFollowMarker() {
     document.querySelector(".follow-marker-button").style.backgroundColor =
       "white";
   });
+  let isUserBusSet = false;  // Variable to keep track of toggle state 
+  document.querySelector('.set-user-bus-button img').src = "../img/follow_user.png";
+
 }
 
 var sourceLocation;
@@ -334,6 +342,9 @@ fetch(path)
       map.once("zoomend", function () {
         polyline.setStyle({ weight: 3 });
       });
+      let isUserBusSet = false;  // Variable to keep track of toggle state 
+      document.querySelector('.set-user-bus-button img').src = "../img/follow_user.png";
+
     });
     destinationLocation = coordinates[coordinates.length - 1];
     var destinationMarker = L.marker(destinationLocation, {
@@ -352,6 +363,9 @@ fetch(path)
       map.once("zoomend", function () {
         polyline.setStyle({ weight: 3 });
       });
+      let isUserBusSet = false;  // Variable to keep track of toggle state 
+      document.querySelector('.set-user-bus-button img').src = "../img/follow_user.png";
+
     });
   })
   .catch((error) => console.error("Error fetching coordinates.json:", error));
@@ -402,6 +416,9 @@ studentStopMarker.on("click", function () {
   map.once("zoomend", function () {
     polyline.setStyle({ weight: 3 });
   });
+  let isUserBusSet = false;  // Variable to keep track of toggle state 
+  document.querySelector('.set-user-bus-button img').src = "../img/follow_user.png";
+
 });
 
 map.on("dragstart", function () {
