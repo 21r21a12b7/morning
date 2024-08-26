@@ -466,7 +466,7 @@ map.on("dragstart", function () {
   document.querySelector(".follow-marker-button").style.backgroundColor =
     "yellow";
   isUserBusSet = false;  // Variable to keep track of toggle state 
-  document.querySelector('.set-user-bus-button img').src = "../img/follow_user.png";
+  document.querySelector('.set-user-bus-button img').src = "../img/follow_user.png"; 
 
 });
 
