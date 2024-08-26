@@ -475,6 +475,10 @@ map.on("dragstart", function () {
     "yellow";
   isUserBusSet = false;  // Variable to keep track of toggle state 
   document.querySelector('.set-user-bus-button img').src = "../img/follow_user.png";
+  if (userLocationMarker) {
+    userLocationMarker.remove();  // This hides the marker
+    userLocationMarker = null;
+  }
 
 });
 
