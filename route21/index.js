@@ -162,11 +162,7 @@ async function fetchBusLocation() {
               [latitude, longitude],
               presentBusLocation
             ]);
-            polyline.setStyle({ weight: 0 });
-            map.once("zoomend", function () {
-              polyline.setStyle({ weight: 3 });
-            });
-            map.flyToBounds(bounds, { padding: [40, 40, 40, 40] });
+            map.fitBounds(bounds, { padding: [40, 40, 40, 40] });
             // Add or update user location marker with custom icon
             if (userLocationMarker) {
               userLocationMarker.setLatLng([latitude, longitude]).update();
