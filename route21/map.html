@@ -294,7 +294,7 @@
     <script>
         let isUserBusSet = false;  // Variable to keep track of toggle state
         let userLocationMarker;    // Variable to store the user location marker
-    
+
         // Custom icon for the user's location marker
         const userLocationIcon = L.icon({
             iconUrl: '../img/deviceLocation.svg',
@@ -302,19 +302,19 @@
             iconAnchor: [15, 15], // point of the icon which will correspond to marker's location
             popupAnchor: [0, -15] // point from which the popup should open relative to the iconAnchor
         });
-    
+
         function redirectToIndex() {
             window.parent.postMessage('reDirectToHomePage', '*');
         }
-    
+
         function redirectToChange() {
             window.parent.postMessage('reDirectToChangeBusPage', '*');
         }
-    
+
         function redirectToSettings() {
             window.parent.postMessage('reDirectToSettingsPage', '*');
         }
-    
+
         function setUserBus() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
@@ -325,7 +325,7 @@
                             [latitude, longitude],
                             presentBusLocation
                         ]);
-    
+
                         if (!isUserBusSet) {
                             // Set user bus
                             polyline.setStyle({ weight: 0 });
@@ -336,7 +336,7 @@
                             document.querySelector('.set-user-bus-button img').src = "../img/follow_user_not.png";
                             document.querySelector(".follow-marker-button").style.backgroundColor = "yellow";
                             shouldFollowMarker = false;
-    
+
                             // Add or update user location marker with custom icon
                             if (userLocationMarker) {
                                 userLocationMarker.setLatLng([latitude, longitude]).update();
@@ -344,7 +344,7 @@
                                 userLocationMarker = L.marker([latitude, longitude], { icon: userLocationIcon }).addTo(map);
                             }
                             userLocationMarker.bindPopup("<b>It's You</b>").openPopup();
-    
+
                         } else {
                             // Reset to previous bounds or state
                             polyline.setStyle({ weight: 0 });
@@ -354,14 +354,14 @@
                             map.flyToBounds(polyline.getBounds(), { padding: [40, 80, 40, 40] });
                             document.querySelector('.set-user-bus-button img').src = "../img/follow_user.png";
                             shouldFollowMarker = false;
-    
+
                             // Hide user location marker
                             if (userLocationMarker) {
                                 userLocationMarker.remove();  // This hides the marker
                                 userLocationMarker = null;
                             }
                         }
-    
+
                         // Toggle the state
                         isUserBusSet = !isUserBusSet;
                     },
@@ -380,14 +380,17 @@
                                 alert("An unknown error occurred.");
                                 break;
                         }
-                    }
+                    },
+                    { enableHighAccuracy: true }  // Options object with enableHighAccuracy set to true
                 );
             } else {
                 alert("Geolocation is not supported by this browser.");
             }
         }
+
+
     </script>
-    
+
 
 
     <script src="index.js" defer></script>
