@@ -162,7 +162,7 @@ async function fetchBusLocation() {
               [latitude, longitude],
               presentBusLocation
             ]);
-            map.fitBounds(bounds, { padding: [40, 40, 40, 40] });
+            map.fitBounds(bounds, { padding: [40, 40, 60, 40] });
             // Add or update user location marker with custom icon
             if (userLocationMarker) {
               userLocationMarker.setLatLng([latitude, longitude]).update();
