@@ -332,7 +332,7 @@
                             map.once("zoomend", function () {
                                 polyline.setStyle({ weight: 3 });
                             });
-                            map.flyToBounds(bounds, { padding: [40, 40, 40, 40] });
+                            map.flyToBounds(bounds, { padding: [40, 80, 40, 40] });
                             document.querySelector('.set-user-bus-button img').src = "../img/follow_user_not.png";
                             document.querySelector(".follow-marker-button").style.backgroundColor = "yellow";
                             shouldFollowMarker = false;
@@ -351,7 +351,7 @@
                             map.once("zoomend", function () {
                                 polyline.setStyle({ weight: 3 });
                             });
-                            map.flyToBounds(polyline.getBounds(), { padding: [40, 40, 40, 40] });
+                            map.flyToBounds(polyline.getBounds(), { padding: [40, 80, 40, 40] });
                             document.querySelector('.set-user-bus-button img').src = "../img/follow_user.png";
                             shouldFollowMarker = false;
     
