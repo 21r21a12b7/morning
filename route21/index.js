@@ -152,7 +152,6 @@ async function fetchBusLocation() {
     // console.log(shouldFollowMarker);
 
     if (isUserBusSet) {
-
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
@@ -163,6 +162,7 @@ async function fetchBusLocation() {
               presentBusLocation
             ]);
             map.fitBounds(bounds, { padding: [40, 80, 40, 40] });
+
             // Add or update user location marker with custom icon
             if (userLocationMarker) {
               userLocationMarker.setLatLng([latitude, longitude]).update();
@@ -170,8 +170,6 @@ async function fetchBusLocation() {
               userLocationMarker = L.marker([latitude, longitude], { icon: userLocationIcon }).addTo(map);
             }
             userLocationMarker.bindPopup(`[${latitude},${longitude}]`).openPopup();
-
-
           },
           (error) => {
             switch (error.code) {
@@ -188,13 +186,14 @@ async function fetchBusLocation() {
                 alert("An unknown error occurred.");
                 break;
             }
-          }
+          },
+          { enableHighAccuracy: true }
         );
       } else {
         alert("Geolocation is not supported by this browser.");
       }
-
     }
+
 
     if (
       previousBusLocation[0] !== presentBusLocation[0] ||
