@@ -343,7 +343,7 @@
                             } else {
                                 userLocationMarker = L.marker([latitude, longitude], { icon: userLocationIcon }).addTo(map);
                             }
-                            userLocationMarker.bindPopup("It's You").openPopup();
+                            userLocationMarker.bindPopup("<b>It's You</b>").openPopup();
     
                         } else {
                             // Reset to previous bounds or state
@@ -351,7 +351,7 @@
                             map.once("zoomend", function () {
                                 polyline.setStyle({ weight: 3 });
                             });
-                            map.flyToBounds(polyline.getBounds(), { padding: [30, 30, 30, 30] });
+                            map.flyToBounds(polyline.getBounds(), { padding: [40, 40, 40, 40] });
                             document.querySelector('.set-user-bus-button img').src = "../img/follow_user.png";
                             shouldFollowMarker = false;
     

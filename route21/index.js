@@ -169,7 +169,7 @@ async function fetchBusLocation() {
             } else {
               userLocationMarker = L.marker([latitude, longitude], { icon: userLocationIcon }).addTo(map);
             }
-            userLocationMarker.bindPopup("It's You").openPopup();
+            userLocationMarker.bindPopup("<b>It's You</b>").openPopup();
 
 
           },
